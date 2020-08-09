@@ -119,7 +119,7 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        return self.capacity
 
 
     def get_load_factor(self):
@@ -128,7 +128,17 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        count = 0
+        for item in self.table:
+            if item != None:
+                count += 1
+        
+        load_factor = count / self.capacity
+
+        if load_factor >= .7:
+            self.resize(self.capacity * 2)
+        
+        return load_factor
 
 
     def fnv1(self, key):
@@ -191,7 +201,7 @@ class HashTable:
         else:
             self.table[hash_index].delete(key)
         
-        
+
     def get(self, key):
         #find index
         hash_index = self.djb2(key)
@@ -213,20 +223,30 @@ class HashTable:
 
 
     def resize(self, new_capacity):
-        """
-        Changes the capacity of the hash table and
-        rehashes all key/value pairs.
+        #store the old table
+        old_table = self.table
 
-        Implement this.
-        """
-        # Your code here
+        #set capacity to new capacity and make new table
+        self.capacity = new_capacity
+        self.table = [None] * new_capacity
+
+        #loop through every spot in array
+        for item in old_table:
+            #if the current spot has a ll rehash it
+            if item != None:
+                cur = item.head
+
+                while cur is not None:
+                    next_item = cur.next
+                    #rehash
+                    self.put(cur.key, cur.value)
+                    cur = next_item
 
 
 ht = HashTable(8)
 ht.put('key0', 'value0')
 print(ht.get('key0'))
-ht.delete('key0')
-print(ht.get('key0'))
+print(ht.get_load_factor())
 
 
 
