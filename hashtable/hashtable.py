@@ -207,7 +207,6 @@ class HashTable:
         hash_index = self.djb2(key)
 
         if self.table[hash_index] == None:
-            print('this ran')
             return None
         else:
             #search the linked list

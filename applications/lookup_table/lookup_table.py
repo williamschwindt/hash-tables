@@ -1,4 +1,5 @@
-# Your code here
+import math
+import random
 
 
 def slowfun_too_slow(x, y):
@@ -9,12 +10,25 @@ def slowfun_too_slow(x, y):
 
     return v
 
+lookup_table = {}
+
 def slowfun(x, y):
     """
     Rewrite slowfun_too_slow() in here so that the program produces the same
     output, but completes quickly instead of taking ages to run.
     """
-    # Your code here
+    global lookup_table
+
+    if f'{x}, {y}' in lookup_table:
+        return lookup_table[f'{x}, {y}']
+    else:
+        v = math.pow(x, y)
+        v = math.factorial(v)
+        v //= (x + y)
+        v %= 982451653
+
+        lookup_table[f'{x}, {y}'] = v
+        return v
 
 
 
